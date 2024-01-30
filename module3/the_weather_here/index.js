@@ -13,6 +13,7 @@ app.use(express.json({ limit: '1mb' }));
 
 const database = new Datastore('database.db');
 database.loadDatabase();
+console.log('index.js line 16');
 
 app.get('/api', (request, response) => {
   database.find({}, (err, data) => {
@@ -33,6 +34,7 @@ app.post('/api', (request, response) => {
 });
 
 app.get('/weather/:latlon', async (request, response) => {
+ 
   console.log(request.params);
   const latlon = request.params.latlon.split(',');
   console.log(latlon);
@@ -40,13 +42,24 @@ app.get('/weather/:latlon', async (request, response) => {
   const lon = latlon[1];
   console.log(lat, lon);
   const api_key = process.env.API_KEY;
-  const weather_url = `https://api.darksky.net/forecast/${api_key}/${lat},${lon}/?units=si`;
+  const weather_url = `http://api.weatherapi.com/v1/current.json?key=5b37d717a22143d29b5173940242901&q=${lat},${lon}&aqi=no`;
+  //const weather_url = 'http://api.weatherapi.com/v1/current.json?key=5b37d717a22143d29b5173940242901&q=37.50, -122.29&aqi=no';
+  console.log('index.js line 47'); 
+  console.log(weather_url);
+
+  
   const weather_response = await fetch(weather_url);
   const weather_data = await weather_response.json();
+  console.log(weather_data);
+  console.log('index.js line 52');
 
   const aq_url = `https://api.openaq.org/v1/latest?coordinates=${lat},${lon}`;
+  console.log('index.js line 55');
+  console.log(aq_url);
   const aq_response = await fetch(aq_url);
   const aq_data = await aq_response.json();
+  console.log(aq_data);
+  console.log('index.js line 59');
 
   const data = {
     weather: weather_data,

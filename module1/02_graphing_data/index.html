@@ -38,9 +38,19 @@
           options: {}
         });
       }
+      // const response = await fetch('ZonAnn.Ts+dSST.csv', { mode: 'no-cors' });
 
+      const fetchPromise = fetch("https://www.olo.land/s/ZonAnnTsdSST.csv");
+      fetchPromise
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+
+      
       async function getData() {
         // const response = await fetch('testdata.csv');
+        //const response = await fetch('https://www.olo.land/s/ZonAnnTsdSST.csv');
         const response = await fetch('ZonAnn.Ts+dSST.csv');
         const data = await response.text();
         const years = [];

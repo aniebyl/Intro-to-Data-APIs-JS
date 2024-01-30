@@ -10,16 +10,18 @@ if ('geolocation' in navigator) {
       document.getElementById('latitude').textContent = lat.toFixed(2);
       document.getElementById('longitude').textContent = lon.toFixed(2);
       const api_url = `weather/${lat},${lon}`;
+      console.log(api_url);
+      console.log('sketch.js line 14');
       const response = await fetch(api_url);
       const json = await response.json();
-      weather = json.weather.currently;
-      air = json.air_quality.results[0].measurements[0];
-      document.getElementById('summary').textContent = weather.summary;
-      document.getElementById('temp').textContent = weather.temperature;
-      document.getElementById('aq_parameter').textContent = air.parameter;
-      document.getElementById('aq_value').textContent = air.value;
-      document.getElementById('aq_units').textContent = air.unit;
-      document.getElementById('aq_date').textContent = air.lastUpdated;
+      weather = json.weather.current;
+      console.log(json);
+      console.log('sketch.js line 18');
+    
+      document.getElementById('temp').textContent = json.weather.current.temp_c;
+      document.getElementById('summary').textContent = json.weather.current.condition.text;
+    
+      
     } catch (error) {
       console.error(error);
       air = { value: -1 };
@@ -37,6 +39,7 @@ if ('geolocation' in navigator) {
     const db_response = await fetch('/api', options);
     const db_json = await db_response.json();
     console.log(db_json);
+    console.log('sketch.js line 41');
   });
 } else {
   console.log('geolocation not available');
